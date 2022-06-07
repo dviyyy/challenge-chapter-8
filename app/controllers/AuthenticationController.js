@@ -1,6 +1,10 @@
 const ApplicationController = require('./ApplicationController');
 const {
-  EmailNotRegisteredError, InsufficientAccessError, RecordNotFoundError, WrongPasswordError,
+  EmailNotRegisteredError,
+  InsufficientAccessError,
+  RecordNotFoundError,
+  WrongPasswordError,
+  EmailAlreadyTakenError,
 } = require('../errors');
 const { JWT_SIGNATURE_KEY } = require('../../config/application');
 
@@ -30,7 +34,8 @@ class AuthenticationController extends ApplicationController {
       const payload = this.decodeToken(token);
 
       if (!!rolename && rolename !== payload.role.name) {
-        throw new InsufficientAccessError(payload?.role?.name);}
+        throw new InsufficientAccessError(payload?.role?.name);
+      }
 
       req.user = payload;
       next();
@@ -149,7 +154,9 @@ class AuthenticationController extends ApplicationController {
 
   encryptPassword = (password) => this.bcrypt.hashSync(password, 10);
 
-  verifyPassword = (password, encryptedPassword) => this.bcrypt.compareSync(password, encryptedPassword);
+  verifyPassword = (password, encryptedPassword) => {
+    this.bcrypt.compareSync(password, encryptedPassword);
+  };
 }
 
 module.exports = AuthenticationController;
