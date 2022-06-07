@@ -11,6 +11,10 @@
         "ecmaVersion": "latest"
     },
     "rules": {
+        "class-methods-use-this":"off",
+        "no-unused-vars":"off",
+        "import/no-dynamic-require":"off",
+        "global-require":"off",
         "linebreak-style": 0
     }
 }
