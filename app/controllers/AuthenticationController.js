@@ -152,11 +152,13 @@ class AuthenticationController extends ApplicationController {
     return this.jwt.verify(token, JWT_SIGNATURE_KEY);
   }
 
-  encryptPassword = (password) => this.bcrypt.hashSync(password, 10);
+  encryptPassword(password) {
+    return this.bcrypt.hashSync(password, 10);
+  }
 
-  verifyPassword = (password, encryptedPassword) => {
-    this.bcrypt.compareSync(password, encryptedPassword);
-  };
+  verifyPassword(password, encryptedPassword) {
+    return this.bcrypt.compareSync(password, encryptedPassword);
+  }
 }
 
 module.exports = AuthenticationController;
