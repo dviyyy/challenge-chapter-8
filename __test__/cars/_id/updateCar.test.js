@@ -12,15 +12,15 @@ describe('Cars /v1/cars/:id', () => {
     const response = await request(app)
       .post('/v1/auth/login')
       .send({
-        email: 'Fikri@binar.co.id',
+        email: 'Devii@binar.co.id',
         password: '123456',
       });
 
     accessToken = response.body.accessToken;
 
     car = await Car.create({
-      name: 'Hyundai',
-      price: 500000,
+      name: 'Honda',
+      price: 250000,
       size: 'SMALL',
       image: 'https://source.unsplash.com/531x531',
       isCurrentlyRented: false,
@@ -36,7 +36,7 @@ describe('Cars /v1/cars/:id', () => {
     .set('Accept', 'application/json')
     .set('Authorization', `Bearer ${accessToken}`)
     .send({
-      name: 'Avanza',
+      name: 'Lifree',
       price: 400000,
       size: 'SMALL',
       image: 'https://source.unsplash.com/531x531',
@@ -55,13 +55,13 @@ describe('Cars /v1/cars/:id', () => {
     const response = await request(app)
       .post('/v1/auth/login')
       .send({
-        email: 'Fikri@binar.co.id',
+        email: 'Devii@binar.co.id',
         password: '123456',
       });
     accessToken = response.body.accessToken;
     car = await Car.create({
-      name: 'Hyundai',
-      price: 500000,
+      name: 'Honda',
+      price: 250000,
       size: 'SMALL',
       image: 'https://source.unsplash.com/531x531',
       isCurrentlyRented: false,

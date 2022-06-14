@@ -3,14 +3,14 @@ const bcrypt = require('bcryptjs');
 const app = require('../../app');
 const { User } = require('../../app/models');
 
-const loginEmail = 'hello@gmail.com';
-const emailNotRegistered = 'bye@gmail.com';
+const loginEmail = 'login@gmail.com';
+const emailNotRegistered = 'failed@gmail.com';
 const password = 'hellow';
 const wrongPassword = 'helloww';
 const passwordBcrypt = bcrypt.hashSync(password, 10);
 
 const userLogin = {
-  name: 'hello',
+  name: 'login',
   email: loginEmail,
   encryptedPassword: passwordBcrypt,
   roleId: 2,
