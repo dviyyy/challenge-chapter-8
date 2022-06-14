@@ -1,5 +1,6 @@
 # BCR API
 
+LINK DEPLOY HEROKU: https://challenge-chapter-8-devii.herokuapp.com/documentation
 HEROKU APP = challenge-chapter-8-devi
 Di dalam repository ini terdapat implementasi API dari Binar Car Rental.
 Tugas kalian disini adalah:
