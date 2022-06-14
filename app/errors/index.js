@@ -4,6 +4,7 @@ const InsufficientAccessError = require('./InsufficientAccessError');
 const NotFoundError = require('./NotFoundError');
 const WrongPasswordError = require('./WrongPasswordError');
 const EmailAlreadyTakenError = require('./EmailAlreadyTakenError');
+const RecordNotFoundError = require('./RecordNotFoundError')
 
 module.exports = {
   CarAlreadyRentedError,
@@ -12,4 +13,5 @@ module.exports = {
   NotFoundError,
   WrongPasswordError,
   EmailAlreadyTakenError,
+  RecordNotFoundError
 };

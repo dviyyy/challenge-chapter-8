@@ -42,7 +42,9 @@ class CarController extends ApplicationController {
         size,
         image,
       } = req.body;
-
+      if (typeof name !== 'string') {
+        throw new Error('Name must be input in string');
+      }
       const car = await this.carModel.create({
         name,
         price,
@@ -65,11 +67,18 @@ class CarController extends ApplicationController {
   handleRentCar = async (req, res, next) => {
     try {
       const { rentStartedAt } = req.body;
-      let { rentEndedAt } = req.body;
+      const { rentEndedAt } = req.body;
+      if (!rentStartedAt && !rentEndedAt) {
+        throw new Error('Please input rent date');
+      }
       const car = await this.getCarFromRequest(req);
 
-      if (!rentEndedAt) rentEndedAt = this.dayjs(rentStartedAt).add(1, 'day');
+      let rentEnded = this.dayjs(rentStartedAt).add(1, 'day');
 
+      if (rentEndedAt) {
+        // eslint-disable-next-line no-self-assign
+        rentEnded = rentEnded;
+      }
       const activeRent = await this.userCarModel.findOne({
         where: {
           carId: car.id,
@@ -95,6 +104,10 @@ class CarController extends ApplicationController {
         rentEndedAt,
       });
 
+      await this.carModel.update({
+        isCurrentlyRented: true,
+      }, { where: { id: req.params.id } });
+
       res.status(201).json(userCar);
     } catch (err) {
       next(err);
@@ -112,15 +125,26 @@ class CarController extends ApplicationController {
 
       const car = this.getCarFromRequest(req);
 
-      await car.update({
+      const carsUpdate = await this.carModel.update(
+      {
         name,
         price,
         size,
         image,
         isCurrentlyRented: false,
-      });
-
-      res.status(200).json(car);
+      },
+      {
+        where: {
+        id: req.params.id,
+      },
+      },
+      );
+      if (typeof name !== 'string') {
+        throw new Error('Car name must be input in string');
+      }
+      res.status(201).json(
+        { message: 'Data have been updated successfully' },
+        );
     } catch (err) {
       res.status(422).json({
         error: {
@@ -132,8 +156,15 @@ class CarController extends ApplicationController {
   };
 
   handleDeleteCar = async (req, res) => {
-    const car = await this.carModel.destroy(req.params.id);
-    res.status(204).end();
+    const car = await this.carModel.destroy({
+      where: {
+        id: req.params.id,
+    },
+    });
+
+    res.status(200).json(
+      { message: 'Data have been deleted successfully' },
+      );
   };
 
   getCarFromRequest(req) {
